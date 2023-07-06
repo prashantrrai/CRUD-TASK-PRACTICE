@@ -1,1 +1,34 @@
-<p>adduser works!</p>
+<h1>Add User</h1>
+
+<form [formGroup]="userForm" (ngSubmit)="addUser()">
+  <label for="name">Name</label>
+  <input type="text" formControlName="name" />
+  <label for="email">Email</label>
+  <input type="text" formControlName="email" />
+  <label for="phone">Phone</label>
+  <input type="tel" formControlName="phone" maxlength="10">
+  <label for="password">Password</label>
+  <input type="password" formControlName="password" />
+  <button type="submit">Add User</button>
+</form>
+
+<div>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Password</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of userArray">
+        <td>{{user.name}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.phone}}</td>
+        <td>{{user.password}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
