@@ -1,17 +1,20 @@
-<!-- <h1>Add User</h1> -->
+<div class="container">
+  <!-- <h1>Add User</h1> -->
 
-<form [formGroup]="userForm" (ngSubmit)="onsubmit()">
-  <label for="name">Name</label>
-  <input type="text" formControlName="name" />
-  <label for="email">Email</label>
-  <input type="text" formControlName="email" />
-  <label for="phone">Phone</label>
-  <input type="tel" formControlName="phone" maxlength="10">
-  <label for="password">Password</label>
-  <input type="password" formControlName="password" />
-  <button *ngIf="!isEditMode">Add User</button>
-  <button *ngIf="isEditMode" >Update User</button>
-</form>
+<div class="container">
+  <form [formGroup]="userForm" (ngSubmit)="onsubmit()">
+    <label for="name">Name</label>
+    <input type="text" formControlName="name" />
+    <label for="email">Email</label>
+    <input type="text" formControlName="email" />
+    <label for="phone">Phone</label>
+    <input type="tel" formControlName="phone" maxlength="10">
+    <label for="password">Password</label>
+    <input type="password" formControlName="password" />
+    <button class="btn btn-success" *ngIf="!isEditMode">Add User</button>
+    <button class="btn btn-info" *ngIf="isEditMode" >Update User</button>
+  </form>
+</div>
 
 <div>
   <table border="1">
@@ -36,4 +39,43 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+
+<div class="d-flex py-2 gap-5">
+  <div>
+    <input type="text" placeholder="Search by Name, Phone, Email..." [(ngModel)]="search" (input)="getuserData()">
+  </div>
+
+  <div>
+    <select name="limit" id="pagelimit" [(ngModel)]="limit" (change)="onPageSizeChange($event)">
+      <option value="5">Select Page</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    </select>
+  </div>
+
+  <div>
+    <select name="sortBy" id="sortBy" [(ngModel)]="sortBy" (change)="getuserData()" >
+      <option value="name">Name</option>
+      <option value="email">Email</option>
+      <option value="phone">Phone</option>
+    </select>
+  </div>
+
+  <div>
+    <select name="sortOrder" id="sortOrder" [(ngModel)]="sortOrder" (change)="getuserData()">
+      <option value="asc">Ascending</option>
+      <option value="desc">Descending</option>
+    </select>
+  </div>
+
+</div>
 </div>

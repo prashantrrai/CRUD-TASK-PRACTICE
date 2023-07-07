@@ -13,6 +13,14 @@ export class AdduserComponent {
   userId: any;
   userdata: any;
   isEditMode: boolean = false;
+  search: string = "";
+  page: number = 1;
+  limit: number = 5 ;
+  sortBy: string = 'name';
+  sortOrder: string = 'asc';
+  count: any;
+  paginatedDrivers: any[] = [];
+  totalPages: number = 0;
 
 
   constructor(
@@ -24,7 +32,7 @@ export class AdduserComponent {
     this.userForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.required],
+      phone: ['', Validators.required, Validators.minLength(10)],
       password: ['', Validators.required]
     });
    }
@@ -66,17 +74,18 @@ export class AdduserComponent {
   }
 
   // -----------------------------GET USER DATA---------------------------------//
-  getuserData(){
-    this._user.getuserData().subscribe({
-      next: (response: any) => {
-        // console.log(response)
-        this.userArray = response.data;
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
-  }
+  // getuserData(){
+  //   this._user.getuserData().subscribe({
+  //     next: (response: any) => {
+  //       // console.log(response)
+  //       this.userArray = response.data;
+  //     },
+  //     error: (err) => {
+  //       console.log(err);
+  //     }
+  //   })
+  // }
+
 
   // -----------------------------DELETE USER-------------------------------------//
   deleteUser(userId: any){
@@ -138,4 +147,39 @@ export class AdduserComponent {
       this.addUser()
     }
   }
+
+  // ---------------------------GET USER DATA WITH SEARCH PAGINATION SORT------------------------------//
+  getuserData(){
+    this._user.getuserData(this.search,  this.page, this.limit, this.sortBy, this.sortOrder).subscribe({
+      
+      next: (response: any) => {
+        console.log(response)
+        this.userArray = response.data;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+  onPageSizeChange(event: any){
+    this.limit = +event.target.value;
+    console.log(this.limit);
+    
+    this.page = 1
+    this.updatePaginatedDrivers();
+    this.getuserData()
+  }
+  onPageChange(pageNumber: number) {
+    if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+      this.page = pageNumber;
+      this.updatePaginatedDrivers();
+      this.getuserData();
+    }
+  }
+  updatePaginatedDrivers() {
+    const startIndex = (this.page - 1) * this.limit;
+    const endIndex = startIndex + this.limit;
+    this.paginatedDrivers = this.userArray.slice(startIndex, endIndex);
+  }
+
 }
