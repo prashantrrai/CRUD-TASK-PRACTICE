@@ -16,7 +16,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DashboardRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    // ToastrModule.forRoot(),
+    
   ]
 })
 export class DashboardModule { }
