@@ -18,11 +18,11 @@ crudRoute.post('/crudadd', async(req, res) => {
         const data = new crudModel(req.body)
         await data.save()
         console.log(data)
-        return res.status(200).json({   success: true, message: "Data Added Successfully", data})
+        return res.status(200).json({   success: true, message: "User Added Successfully", data})
     } catch (error) {
         console.log(error)
         if (error.keyPattern){
-            return res.json({success: false, message: "User Exists Already"})
+            return res.json({success: false, message: "User Exists Already", error: error.message})
         }
         return res.status(500).json({success: false, message: 'Internal Server Error', error: error.message })
     }

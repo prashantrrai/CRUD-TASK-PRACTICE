@@ -1,7 +1,7 @@
 <div class="container">
-  <!-- <h1>Add User</h1> -->
+  <h1 class="d-flex justify-content-center">CRUD USER</h1>
 
-<div class="container">
+<div class="container p-2">
   <form [formGroup]="userForm" (ngSubmit)="onsubmit()">
     <label for="name">Name</label>
     <input type="text" formControlName="name" />
@@ -11,13 +11,13 @@
     <input type="tel" formControlName="phone" maxlength="10">
     <label for="password">Password</label>
     <input type="password" formControlName="password" />
-    <button class="btn btn-success" *ngIf="!isEditMode">Add User</button>
-    <button class="btn btn-info" *ngIf="isEditMode" >Update User</button>
+    <button class="btn btn-primary m-2" *ngIf="!isEditMode">Add User</button>
+    <button class="btn btn-info m-2" *ngIf="isEditMode" >Update User</button>
   </form>
 </div>
 
 <div>
-  <table border="1">
+  <table class="table" border="1">
     <thead>
       <tr>
         <th>Name</th>
@@ -29,7 +29,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of userArray">
+      <tr *ngFor="let user of userArray | paginate: { itemsPerPage: limit, currentPage: page, totalItems: count}; let i = index">
         <td>{{user.name}}</td>
         <td>{{user.email}}</td>
         <td>{{user.phone}}</td>
@@ -40,6 +40,12 @@
     </tbody>
   </table>
 </div>
+
+<!-- ---------------------------------------------PAGINATION USING NGX-------------------------------------------- ----- -->
+<div class="d-flex justify-content-center">
+  <pagination-controls previousLabel nextLabel (pageChange)="onPageChange($event)" [maxSize]="5" [responsive]="true"></pagination-controls>
+</div>
+
 
 
 <div class="d-flex py-2 gap-5">
@@ -79,3 +85,6 @@
 
 </div>
 </div>
+
+
+

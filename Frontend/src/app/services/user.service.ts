@@ -26,7 +26,7 @@ export class UserService {
 
   updateUser(userdata: any){
     // console.log(userdata);
-    return this.http.put(`${this.serverURL}/updateuser`, userdata) 
+    return this.http.put(`${this.serverURL}/updateuser`, userdata)
   }
 
   getuserData(search: string, page: number, limit: number, sortBy: string, sortOrder: string){
@@ -37,8 +37,7 @@ export class UserService {
       sortBy: sortBy,
       sortOrder: sortOrder
     };
-    console.log(params);
-    
+    // console.log(params);
     return this.http.get(`${this.serverURL}/cruddata`, {params: params});
   }
 

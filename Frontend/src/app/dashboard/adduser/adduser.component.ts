@@ -19,12 +19,12 @@ export class AdduserComponent {
   sortBy: string = 'name';
   sortOrder: string = 'asc';
   count: any;
-  paginatedDrivers: any[] = [];
+  paginatedUsers: any[] = [];
   totalPages: number = 0;
 
 
   constructor(
-    private _user: UserService, 
+    private _user: UserService,
     private fb: FormBuilder,
     // private toastr: ToastrService
     ) {
@@ -32,7 +32,7 @@ export class AdduserComponent {
     this.userForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.required, Validators.minLength(10)],
+      phone: ['', [Validators.required, Validators.minLength(10)]],
       password: ['', Validators.required]
     });
    }
@@ -55,10 +55,15 @@ export class AdduserComponent {
       this._user.adduser(userData).subscribe({
         next: (response: any) => {
           console.log(response)
-          // this.toastr.success(response.message)
-          alert(response.message)
+
+          if (response.message != "User Exists Already"){
+            alert(response.message);
+            this.userForm.reset()
+          }else{
+            alert(response.message)
+          }
+
           this.getuserData()
-          this.userForm.reset()
         },
         error: (error) => {
           console.log(error);
@@ -103,13 +108,13 @@ export class AdduserComponent {
         error: (error: any) => {
           console.log(error);
         }
-      }) 
-    } 
+      })
+    }
   }
 
   // ----------------------UPADTE USER------------------------------//
   editbtnclick(user: any){
-    console.log(user);
+    // console.log(user);
     this.userdata = user;
     this.isEditMode = true;
 
@@ -122,19 +127,25 @@ export class AdduserComponent {
   }
 
   upadteUser(){
-    const updatedUser = { ...this.userdata, ...this.userForm.value }; 
+    const updatedUser = { ...this.userdata, ...this.userForm.value };
     this._user.updateUser(updatedUser).subscribe({
       next: (response: any) => {
         console.log(response);
-        this.userForm.reset()
-        this.isEditMode = false;
+
+        if (response.message != "User Already Exists"){
+          alert(response.message);
+          this.userForm.reset()
+          this.isEditMode = false;
+        }else{
+          alert(response.message)
+        }
+
         this.getuserData()
-        alert(response.message)
       },
       error: (error: any)=> {
         console.log(error);
         alert(error)
-        
+
       }
     })
   }
@@ -151,10 +162,12 @@ export class AdduserComponent {
   // ---------------------------GET USER DATA WITH SEARCH PAGINATION SORT------------------------------//
   getuserData(){
     this._user.getuserData(this.search,  this.page, this.limit, this.sortBy, this.sortOrder).subscribe({
-      
       next: (response: any) => {
-        console.log(response)
+        // console.log(response)
         this.userArray = response.data;
+        this.totalPages = response.totalPage;
+        this.count = response.count;
+        this.updatePaginatedUsers();
       },
       error: (err) => {
         console.log(err);
@@ -164,22 +177,28 @@ export class AdduserComponent {
   onPageSizeChange(event: any){
     this.limit = +event.target.value;
     console.log(this.limit);
-    
     this.page = 1
-    this.updatePaginatedDrivers();
+
+    this.updatePaginatedUsers();
     this.getuserData()
   }
   onPageChange(pageNumber: number) {
+    console.log(pageNumber);
+
     if (pageNumber >= 1 && pageNumber <= this.totalPages) {
       this.page = pageNumber;
-      this.updatePaginatedDrivers();
+
+      this.updatePaginatedUsers();
       this.getuserData();
     }
   }
-  updatePaginatedDrivers() {
+  // getPagesArray(): number[] {
+  //   return Array(this.totalPages).fill(0).map((_, index) => index + 1);
+  // }
+  updatePaginatedUsers() {
     const startIndex = (this.page - 1) * this.limit;
     const endIndex = startIndex + this.limit;
-    this.paginatedDrivers = this.userArray.slice(startIndex, endIndex);
+    this.paginatedUsers = this.userArray.slice(startIndex, endIndex);
   }
 
 }
