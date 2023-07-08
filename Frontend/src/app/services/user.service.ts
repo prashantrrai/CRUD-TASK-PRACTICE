@@ -15,9 +15,9 @@ export class UserService {
     return this.http.post(`${this.serverURL}/crudadd`, userdata);
   }
 
-  // getuserData(){
-  //   return this.http.get(`${this.serverURL}/cruddata`);
-  // }
+  onlygetuserData(){
+    return this.http.get(`${this.serverURL}/onlycruddata`);
+  }
 
   deleteUser(userId: any){
     console.log(userId);

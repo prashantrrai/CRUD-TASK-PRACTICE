@@ -5,7 +5,7 @@ import { UpdateuserComponent } from './updateuser/updateuser.component';
 
 const routes: Routes = [
   {path:"adduser", component: AdduserComponent},
-  {path: "updateuser", component: UpdateuserComponent}
+  {path: "userdata", component: UpdateuserComponent}
 ];
 
 @NgModule({

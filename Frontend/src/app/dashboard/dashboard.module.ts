@@ -6,11 +6,13 @@ import { CommonModule } from '@angular/common';
 import { AdduserComponent } from './adduser/adduser.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { UpdateuserComponent } from './updateuser/updateuser.component';
 
 
 @NgModule({
   declarations: [
-    AdduserComponent
+    AdduserComponent,
+    UpdateuserComponent
   ],
   imports: [
     CommonModule,
