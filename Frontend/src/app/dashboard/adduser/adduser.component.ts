@@ -165,8 +165,8 @@ export class AdduserComponent {
       next: (response: any) => {
         // console.log(response)
         this.userArray = response.data;
-        this.totalPages = response.totalPage;
         this.count = response.count;
+        this.totalPages = response.totalPage;
         this.updatePaginatedUsers();
       },
       error: (err) => {
@@ -192,9 +192,7 @@ export class AdduserComponent {
       this.getuserData();
     }
   }
-  // getPagesArray(): number[] {
-  //   return Array(this.totalPages).fill(0).map((_, index) => index + 1);
-  // }
+
   updatePaginatedUsers() {
     const startIndex = (this.page - 1) * this.limit;
     const endIndex = startIndex + this.limit;
